@@ -1,0 +1,13 @@
+#!/bin/bash
+
+((!$#)) && echo "please supply either ssh or uart" && return
+case $1 in
+    uart) sudo screen /dev/ttyUSB0 115200 ;;
+    ssh) echo "password for pi is raspberry" && ssh pi@192.168.43.22 -p 55555;;
+    -h ) echo "User:    pi
+Pass: raspberry" ;;
+esac
+
+
+# https://raspberrypi.stackexchange.com/questions/8311/ssh-connection-timeout-when-connecting
+# https://www.raspberrypi.org/documentation/remote-access/ssh/

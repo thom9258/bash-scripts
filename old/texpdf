@@ -1,0 +1,5 @@
+#!/bin/bash
+
+pdflatex $1 && echo "Converted your .tex file into a .pdf file using PDFLATEX" && \
+rm *.aux && rm *.log echo "Removed the .aux and .log files" && ls -Al || \
+echo "Couldent convert yout .tex file into a .pdf file, please read *.log for more information"

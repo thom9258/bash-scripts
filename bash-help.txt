@@ -1,0 +1,26 @@
+HELP WRITING BASH
+
+## general information:
+# NEVER USE IF SENTENCES!
+
+;   means run command after first command
+&&  run something if first command succeded
+||  run something if first command didnt succeed
+&   starts a new thread for the second command, no matter what the first one is doing
+
+
+## ALWAYS START WITH
+#!/bin/bash
+
+## Arguments refrence
+# $# is the number of arguments
+# $0 is the filename of the script
+# $1 is the first argument and so on
+
+
+## Case switch example
+case "$1" in
+    a) echo "a" ;;
+    b) echo "b" ;;
+    *) echo "nothing" ;;
+esac

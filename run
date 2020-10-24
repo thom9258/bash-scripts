@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Oneliner for building and executing a program using make
+
+[ -z "$1" ] && echo "Please input project executeable name as argument" || make && ./"$1"

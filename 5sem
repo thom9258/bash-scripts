@@ -1,0 +1,29 @@
+#!/bin/bash
+
+CHOISES="Computer-vision\nRobots in context\nArtificial intelligence\nAlgorithms and datastructures\nStatistics\nLinux for embedded"
+
+((!$#)) && CHOSEN=$(echo -e $CHOISES | dmenu -i) || CHOSEN=$1
+case $CHOSEN in
+    "Computer vision" | vis)
+        cd ~/Dropbox/5sem/computer-vision/ && ls || echo "path didnt exist" ;;
+    "Robots in context" | con)
+        cd ~/Dropbox/5sem/robots-in-context/ && ls || echo "path didnt exist" ;;
+    "Artificial intelligence" | ai)
+        cd ~/Dropbox/5sem/artificial-intelligence/ && ls || echo "path didnt exist" ;;
+    "Algorithms and datastructures" | alg)
+        cd ~/Dropbox/5sem/algoritmer-og-datastrukturer/ && ls || echo "path didnt exist" ;;
+    "Statistics" | stat)
+        cd ~/Dropbox/5sem/statistik/ && ls || echo "path didnt exist" ;;
+    "Linux for embedded" | lin)
+        cd ~/Dropbox/5sem/linux-for-embedded-objects/ && ls || echo "path didnt exist" ;;
+    -h) echo "cd into 5.semester folders:
+
+-h        shows this help message
+(no arg)  Show a dmenu with the available dir's
+vis       cd into computer vision dir
+con       cd into robots in context dir
+ai        cd into artificial intelligence dir
+alg       cd into algorithms and datastructures dir
+stat      cd into statistics dir
+lin       cd into linux for embedded objects dir";;
+esac

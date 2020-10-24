@@ -1,0 +1,17 @@
+#!/bin/bash
+# this function should setup an entire codeproject directory structure but 
+# as of now it just creates the basics
+
+cp ~/Documents/Cpp/cpp-main-blueprint.cpp main.cpp && echo "Created main.cpp" && \
+qmake -project && \
+echo "# OPENCV PATH" >> *.pro && \
+echo "INCLUDEPATH += /usr/include/opencv4/" >> *.pro && \
+echo "LIBS += `pkg-config --cflags --libs opencv4`" >> *.pro && \
+echo "# FUZZYLITE PATH" >> *.pro && \
+echo "INCLUDEPATH += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite">> *.pro && \
+echo "LIBS += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite/release/bin/libfuzzylite-static.a">> *.pro && \
+echo "LIBS += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite/release/bin/libfuzzylite.so.6.0">> *.pro && \
+echo "LIBS += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite/release/bin/libfuzzylite.so">> *.pro && \
+echo "Created project file" && \
+qmake -makefile && echo "Created makefile" && \
+bear make && echo "Created compile_commands.json for clang intellicense" && ls -lA 
