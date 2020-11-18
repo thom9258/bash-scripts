@@ -1,7 +1,7 @@
 #!/bin/bash
 ((!$#)) && echo "no arguments supplied supply argument -h for help" && return || \
 
-while getopts "z:" opt; do
+while getopts "z" opt; do
     case ${opt} in
         z ) zathura $1 && echo "executed in zathura mode";;
     esac

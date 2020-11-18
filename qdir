@@ -2,16 +2,28 @@
 # this function should setup an entire codeproject directory structure but 
 # as of now it just creates the basics
 
-cp ~/Documents/Cpp/cpp-main-blueprint.cpp main.cpp && echo "Created main.cpp" && \
+MAIN_SUPPLIED=1
+PRESETS="# PRESETS FOR STANDARD PROJECTS
+# OPENCV PATH
+INCLUDEPATH += /usr/include/opencv4/
+LIBS += `pkg-config --cflags --libs opencv4`
+# FUZZYLITE PATH
+INCLUDEPATH += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite
+LIBS += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite/release/bin/libfuzzylite-static.a
+LIBS += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite/release/bin/libfuzzylite.so.6.0
+LIBS += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite/release/bin/libfuzzylite.so"
+
+while getopts ":m" opt 
+do
+    case ${opt} in
+        m ) MAIN_SUPPLIED=0 && echo "No main creation specified";;
+        \? ) echo "Argument not understood" && exit 0;;
+    esac
+done
+
+(( $MAIN_SUPPLIED )) && cp ~/Documents/Cpp/cpp-main-blueprint.cpp main.cpp && echo "Created main.cpp" || echo "Did not create a main";
 qmake -project && \
-echo "# OPENCV PATH" >> *.pro && \
-echo "INCLUDEPATH += /usr/include/opencv4/" >> *.pro && \
-echo "LIBS += `pkg-config --cflags --libs opencv4`" >> *.pro && \
-echo "# FUZZYLITE PATH" >> *.pro && \
-echo "INCLUDEPATH += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite">> *.pro && \
-echo "LIBS += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite/release/bin/libfuzzylite-static.a">> *.pro && \
-echo "LIBS += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite/release/bin/libfuzzylite.so.6.0">> *.pro && \
-echo "LIBS += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite/release/bin/libfuzzylite.so">> *.pro && \
-echo "Created project file" && \
+echo $PRESETS >> *.pro
+echo "Created project file with presets" && \
 qmake -makefile && echo "Created makefile" && \
-bear make && echo "Created compile_commands.json for clang intellicense" && ls -lA 
+bear make && echo "Created compile_commands.json for clang intellicense" && ls 

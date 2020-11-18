@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CHOISES="Computer-vision\nRobots in context\nArtificial intelligence\nAlgorithms and datastructures\nStatistics\nLinux for embedded"
+CHOISES=".\nComputer vision\nRobots in context\nArtificial intelligence\nAlgorithms and datastructures\nStatistics\nLinux for embedded\nRCA"
 
 ((!$#)) && CHOSEN=$(echo -e $CHOISES | dmenu -i) || CHOSEN=$1
 case $CHOSEN in
@@ -16,6 +16,10 @@ case $CHOSEN in
         cd ~/Dropbox/5sem/statistik/ && ls || echo "path didnt exist" ;;
     "Linux for embedded" | lin)
         cd ~/Dropbox/5sem/linux-for-embedded-objects/ && ls || echo "path didnt exist" ;;
+    "RCA" | rca)
+        cd ~/Documents/RCA5-project/robot_control/ && ls || echo "path didnt exist" ;;
+    ".")
+        cd ~/Dropbox/5sem/ && ls || echo "path didnt exist" ;;
     -h) echo "cd into 5.semester folders:
 
 -h        shows this help message
