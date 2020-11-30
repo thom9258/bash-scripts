@@ -1,0 +1,14 @@
+#!/bin/bash
+
+pgrep -x dmenu && exit
+
+MOUNTABLEDRIVES=$(lsblk -lp | grep "part $" | awk '{print $1, "(" $4 ")"}') 
+[[ "MOUNTABLEDRIVES" = "" ]] && exit 1
+CHOSEN=$(printf "none\n$MOUNTABLEDRIVES" | dmenu -i -p "mount?" | awk '{print $1}')
+[[ "$CHOSEN" = "" ]] && exit 1 || [[ "$CHOSEN" = "none" ]] && exit 1
+#echo "$CHOSEN"
+DIRS=$(find /mnt -type d -maxdepth 1 2>/dev/null | grep "/mnt/")
+[[ "DIRS" = "" ]] && exit 1
+MOUNTPOINT=$(printf "none\n$DIRS" | dmenu -i -p "where to?")
+[[ "$MOUNTPOINT" = "" ]] && exit 1 || [[ "$MOUNTPOINT" = "none" ]] && exit 1
+sudo mount $CHOSEN $MOUNTPOINT && echo "mounted $CHOSEN to $MOUNTPOINT, run \"umnt\" to unmount"
