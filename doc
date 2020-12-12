@@ -2,12 +2,12 @@
 
 ((!$#)) && echo "no arguments supplied supply argument -h for help" && return || \
 case "$1" in
-    cpp) cp ~/Documents/Cpp/cpp-main-blueprint.cpp main.cpp && echo "created .cpp document" || echo "could not find the document you are looking for";;
-    hpp) cp ~/Documents/Cpp/hpp-blueprint.cpp h.hpp && echo "created .hpp document" || echo "could not find the document you are looking for";;
-    tex) cp ~/Documents/Latex/latexblueprint.tex latex.tex && echo "created .tex document" || echo "could not find the document you are looking for";;
+    cpp) cp ~/Documents/blueprints/cpp-main-blueprint.cpp blueprint.cpp && echo "created .cpp document" || echo "could not find the document you are looking for";;
+    hpp) cp ~/Documents/blueprints/hpp-blueprint.h blueprint.h && echo "created .hpp document" || echo "could not find the document you are looking for";;
+    tex) cp ~/Documents/blueprints/latexblueprint.tex latex.tex && echo "created .tex document" || echo "could not find the document you are looking for";;
     opencv) cp -r ~/Documents/Cpp/lib/easycv .  && rm easycv/compile_commands.json && echo "Added opencv scripts" || echo "could not find the document you are looking for";;
     easycv) cp -r ~/Documents/Cpp/lib/easycv .  && rm easycv/compile_commands.json && echo "Added opencv scripts" || echo "could not find the document you are looking for";;
     -h) echo 
 "Please specify what type of document you want to create as a argument
 Choose between .cpp / .hpp / .tex";;
-esac
+esac ;ls

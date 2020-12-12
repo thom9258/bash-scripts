@@ -21,7 +21,7 @@ do
     esac
 done
 
-(( $MAIN_SUPPLIED )) && cp ~/Documents/Cpp/cpp-main-blueprint.cpp main.cpp && echo "Created main.cpp" || echo "Did not create a main";
+(( $MAIN_SUPPLIED )) && cp ~/Documents/blueprints/cpp-main-blueprint.cpp main.cpp && echo "Created main.cpp" || echo "Did not create a main";
 qmake -project && \
 echo $PRESETS >> *.pro
 echo "Created project file with presets" && \
