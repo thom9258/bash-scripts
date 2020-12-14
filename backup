@@ -18,9 +18,10 @@ for VAR in "$@"
 do
     PATHNAME=$(tr "/" "%" <<< $(realpath "$VAR")) 
     DATE=$(date +%m-%d-%y.%H:%M:%S)
-    BACKUPNAME="$PATHNAME-$DATE"
+    BACKUPNAME="$DATE-$PATHNAME"
     (( $DEBUG )) && echo $BACKUPNAME
     cp "$VAR" "$BACKUPNAME"
-    mv $BACKUPNAME ~/Backup/.
+    chmod -x "$BACKUPNAME"
+    mv "$BACKUPNAME" ~/Backup/.
 done
 
