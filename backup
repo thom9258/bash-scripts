@@ -1,27 +1,29 @@
 #!/bin/bash
 
-# improvements
-## for every argument
-## name -> path%name%time
-
+(( ! $# )) && echo "No argument supplied!" && exit 1
 DEBUG=0
-
-while getopts ":d" opt
+NO_BACKUP=0
+FORCE_BACKUP=0
+NO_BACKUP_SIGNATURE="(((FORCE_NO_BACKUP)))"
+while getopts "dbf" opt
 do
     case ${opt} in
-        d ) DEBUG=1 && shift $(OPTIND -1) ;;
-        \? ) echo "Argument not understood, terminating" && exit 0;;
+        d ) DEBUG=1 && shift $((OPTIND-1)) ;;
+        b ) echo "Forced no backup!" && NO_BACKUP=1 && shift $((OPTIND-1)) ;;
+        f ) echo "Forced backup!" && FORCE_BACKUP=1 && shift $((OPTIND-1)) ;;
+        \? ) echo "Argument not understood, terminating" && exit 1 ;;
     esac
 done
-
 for VAR in "$@"
 do
+    [[ ! -f ""$VAR ]] && echo "Not a file!" && exit 1
+    grep -n "$NO_BACKUP_SIGNATURE" < "$VAR" && (( ! FORCE_BACKUP )) && echo "Forced no backup!" && exit 0
     PATHNAME=$(tr "/" "%" <<< $(realpath "$VAR")) 
-    DATE=$(date +%m-%d-%y.%H:%M:%S)
+    DATE=$(date +%Y-%m-%d.%H:%M:%S)
     BACKUPNAME="$DATE-$PATHNAME"
-    (( $DEBUG )) && echo $BACKUPNAME
     cp "$VAR" "$BACKUPNAME"
     chmod -x "$BACKUPNAME"
     mv "$BACKUPNAME" ~/Backup/.
+    (( $DEBUG )) && echo "Created file $BACKUPNAME and copied to ~/Backup/."
 done
-
+exit 0
