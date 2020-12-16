@@ -1,0 +1,12 @@
+#!/bin/bash
+# A dmenu adaptation of standard surfshark-vpn wizard
+
+(( ! $# )) && CHOSEN=$(printf "none\nstart\nstop\nauto\nstatus\nlog-out" | dmenu -i -p "vpn?") || CHOSEN="$1"
+case "$CHOSEN" in
+    "none" ) exit 0 ;;
+    "start" ) sudo surfshark-vpn && exit 0 ;;
+    "stop" )  sudo surfshark-vpn down && exit 0 ;;
+    "auto" ) sudo surfshark-vpn attack && exit 0 ;;
+    "status" ) sudo surfshark-vpn status exit 0 ;;
+    "log-out" ) sudo surfshark-vpn forget && exit 0 ;;
+esac
