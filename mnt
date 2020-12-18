@@ -2,7 +2,7 @@
 
 pgrep -x dmenu && exit
 
-MOUNTABLEDRIVES=$(lsblk -lp | grep "part $" | awk '{print $1, "(" $4 ")"}') 
+MOUNTABLEDRIVES=$(lsblk -lp | grep -e "part $" -e "/dev/sdb" | awk '{print $1, "(" $4 ")"}') 
 [[ "MOUNTABLEDRIVES" = "" ]] && exit 1
 CHOSEN=$(printf "none\n$MOUNTABLEDRIVES" | dmenu -i -p "mount?" | awk '{print $1}')
 [[ "$CHOSEN" = "" ]] && exit 1 || [[ "$CHOSEN" = "none" ]] && exit 1

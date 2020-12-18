@@ -1,0 +1,9 @@
+#!/bin/bash
+
+CHOISES=".\nBachelor"
+
+((!$#)) && CHOSEN=$(echo -e $CHOISES | dmenu -i) || CHOSEN=$1
+case $CHOSEN in
+    "Bachelor" | ba | bac) cd ~/Dropbox/6sem/bachelor/ && ls || echo "path didnt exist" ;;
+    ".") cd ~/Dropbox/6sem/ && ls || echo "path didnt exist" ;;
+esac
