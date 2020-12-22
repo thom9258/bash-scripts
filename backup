@@ -5,12 +5,13 @@ DEBUG=0
 NO_BACKUP=0
 FORCE_BACKUP=0
 NO_BACKUP_SIGNATURE="(((FORCE_NO_BACKUP)))"
-while getopts "dbf" opt
+while getopts "dbfl" opt
 do
     case ${opt} in
         d ) DEBUG=1 && shift $((OPTIND-1)) ;;
         b ) echo "Forced no backup!" && NO_BACKUP=1 && shift $((OPTIND-1)) ;;
         f ) echo "Forced backup!" && FORCE_BACKUP=1 && shift $((OPTIND-1)) ;;
+        l ) ls --group-directories-first --color=always ~/Backup/ && shift $((OPTIND-1)) ;;
         \? ) echo "Argument not understood, terminating" && exit 1 ;;
     esac
 done
