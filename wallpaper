@@ -1,4 +1,12 @@
 #!/bin/bash
 
-(( !$# )) && feh ~/.wallpaper && exit 0 || [[ -f $1 ]] && cp "$1" ~/.wallpaper
+SHOW_WALLPAPER=0
 
+while getopts "s" opt
+do
+    case ${opt} in
+        s ) SHOW_WALLPAPER=1 && shift $((OPTIND-1)) ;;
+    esac
+done
+
+(( !$# )) && feh ~/.wallpaper && exit 0 || [[ -f "$1" ]] && cp "$1" ~/.wallpaper && feh --no-fehbg --bg-fill ~/.wallpaper && (( $SHOW_WALLPAPER )) && feh ~/.wallpaper
