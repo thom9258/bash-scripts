@@ -12,4 +12,4 @@ do
     esac
 done
 
-(( !$# )) && feh $STD_PATH && exit 0 || [[ -f "$1" ]] && cp "$1" $STD_PATH && feh $STD_OPTIONS $STD_PATH && (( $VIEW_WALLPAPER )) && feh $STD_PATH
+(( !$# )) && [[ -f "$STD_PATH" ]] && feh $STD_PATH && exit 0 || [[ -f "$1" ]] && cp "$1" $STD_PATH && feh $STD_OPTIONS $STD_PATH && (( $VIEW_WALLPAPER )) && feh $STD_PATH

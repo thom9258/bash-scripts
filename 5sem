@@ -10,7 +10,7 @@ case $CHOSEN in
         cd ~/Dropbox/5sem/robots-in-context/ && ls || echo "path didnt exist" ;;
     "Artificial intelligence" | ai)
         cd ~/Dropbox/5sem/artificial-intelligence/ && ls || echo "path didnt exist" ;;
-    "Algorithms and datastructures" | alg)
+    "Algorithms and datastructures" | alg | ada)
         cd ~/Dropbox/5sem/algoritmer-og-datastrukturer/ && ls || echo "path didnt exist" ;;
     "Statistics" | stat)
         cd ~/Dropbox/5sem/statistik/ && ls || echo "path didnt exist" ;;
