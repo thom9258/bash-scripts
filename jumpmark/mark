@@ -1,3 +1,0 @@
-#!/bin/bash
-
-pwd > ~/.cwd && echo "marked current directory, jump to it using jmp"

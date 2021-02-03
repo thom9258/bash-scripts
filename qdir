@@ -3,14 +3,15 @@
 # as of now it just creates the basics
 
 MAIN_SUPPLIED=1
-PRESETS="# PRESETS FOR STANDARD PROJECTS
-# OPENCV PATH
-INCLUDEPATH += /usr/include/opencv4/
-LIBS += `pkg-config --cflags --libs opencv4`
-# FUZZYLITE PATH
-INCLUDEPATH += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite
-LIBS += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite/release/bin/libfuzzylite-static.a
-LIBS += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite/release/bin/libfuzzylite.so.6.0
+PRESETS="
+# PRESETS FOR STANDARD PROJECTS \n
+# OPENCV PATH \n
+INCLUDEPATH += /usr/include/opencv4/ \n
+LIBS += `pkg-config --cflags --libs opencv4` \n
+# FUZZYLITE PATH \n
+INCLUDEPATH += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite \n
+LIBS += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite/release/bin/libfuzzylite-static.a \n
+LIBS += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite/release/bin/libfuzzylite.so.6.0 \n
 LIBS += /home/th/Documents/Cpp/lib/fuzzylite-6.0/fuzzylite/release/bin/libfuzzylite.so"
 
 while getopts ":m" opt 
@@ -23,7 +24,7 @@ done
 
 (( $MAIN_SUPPLIED )) && cp ~/Documents/blueprints/cpp-main-blueprint.cpp main.cpp && echo "Created main.cpp" || echo "Did not create a main";
 qmake -project && \
-echo $PRESETS >> *.pro
+echo -e $PRESETS >> *.pro
 echo "Created project file with presets" && \
 qmake -makefile && echo "Created makefile" && \
 bear make && echo "Created compile_commands.json for clang intellicense" && ls 
