@@ -1,0 +1,5 @@
+#!/bin/bash
+
+[[ ! -f "main.cpp" ]] && cp ~/Documents/blueprints/cpp-main-blueprint.cpp main.cpp
+[[ ! -f "Makefile" ]] && cp ~/Documents/blueprints/Makefile.blueprint Makefile
+compiledb make
