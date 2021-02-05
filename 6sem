@@ -1,9 +1,11 @@
 #!/bin/bash
 
-CHOISES=".\nBachelor"
+CHOISES=".\nBachelor\nNumeriske-metoder\nVidenskabsteori"
 
 ((!$#)) && CHOSEN=$(echo -e $CHOISES | dmenu -i) || CHOSEN=$1
 case $CHOSEN in
     "Bachelor" | ba | bac) cd ~/Dropbox/6sem/bachelor/ && ls || echo "path didnt exist" ;;
+    "Numeriske-metoder" | nu | num) cd ~/Dropbox/6sem/numeriske-metoder/ && ls || echo "path didnt exist" ;;
+    "Videnskabsteori" | nu | num) cd ~/Dropbox/6sem/videnskabsteori/ && ls || echo "path didnt exist" ;;
     ".") cd ~/Dropbox/6sem/ && ls || echo "path didnt exist" ;;
 esac
