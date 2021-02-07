@@ -24,6 +24,9 @@ NO_BACKUP=0
 FORCE_BACKUP=0
 NO_BACKUP_SIGNATURE="(((FORCE_NO_BACKUP)))"
 
+# Check if backup directory exists
+[[ ! -d "$BACKUPDIR" ]] && echo "backup directory does not exist! create $BACKUPDIR or change variable to existing backup directory." && exit 1
+
 # Manage opts
 while getopts "dbfl" opt
 do
@@ -42,7 +45,7 @@ do
     [[ ! -f "$VAR" ]] && echo "Not a file!" && exit 1
 
     # Check for force no backup signature in file and exit
-    (( ! "$FORCE_BACKUP" )) && grep -n "$NO_BACKUP_SIGNATURE" < "$VAR" &&  echo "Forced no backup because (((FORCE_NO_BACKUP))) mark exists in file" && exit 0
+    (( ! "$FORCE_BACKUP" )) && grep -q "$NO_BACKUP_SIGNATURE" < "$VAR" &&  echo "Forced no backup because (((FORCE_NO_BACKUP))) mark exists in file" && exit 0
 
     # Create pathname for the backup file
     PATHNAME=$(tr "/" "%" <<< $(realpath "$VAR")) 
