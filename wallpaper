@@ -4,10 +4,11 @@ STD_OPTIONS="--no-fehbg --bg-fill"
 STD_PATH="$HOME/.wallpaper"
 VIEW_WALLPAPER=0
 
-while getopts "sr" opt
+while getopts "hvr" opt
 do
     case ${opt} in
-        s ) VIEW_WALLPAPER=1 && shift $((OPTIND-1)) ;;
+        h ) echo "v to view and set, r to reload to last wallpaper" ; exit 0 ;;
+        v ) VIEW_WALLPAPER=1 && shift $((OPTIND-1)) ;;
         r ) feh $STD_OPTIONS $STD_PATH && exit 0 ;;
     esac
 done
