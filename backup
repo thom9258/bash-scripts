@@ -1,17 +1,43 @@
 #!/bin/bash
-
+##############################################################################################
+#
+# Original author:      Thomas Alexgaard Jensen (https://github.com/thom9258)
+#
+# License:              MIT
+#
+# Acknowledgements:     This script is a trade of **space for security**. 
+# 
+#                       Repeatedly saving copies of a file (especially a large one) could 
+#                       take up a lot of space, to stop this, either manually clean your 
+#                       backup directory or accept the before mentioned trade.
+#
 ##############################################################################################
 # How to use:
 #
-# -d            Debugging, prints out backup file name and backup directory.
-# -b            Force no backup. Used for testing, without creating a backup file
-# -f            Force backup, even if force no backup mark exists. See (1)
-# -l            list backup directory
+# OPTS:
+# -v            VOCAL, prints out backup file name and backup directory.
+# -f            FORCE backup, even if force no backup mark exists. See (1)
+# -n            NO backup. Run code without creating a backup file
+# -l            LIST backup directory. See (2)
 #
-#
-# (1) To make use of the force no backup function. insert the mark (((FORCE_NO_BACKUP))) 
+# (1) To make use of the force no backup function. Insert the mark (((FORCE_NO_BACKUP))) 
 #     anywhere in the file you want to no backup.
 #
+# (2) Having a LOT of files in your backup directory will fill your terminal with a lot 
+#     of useless old backups, therefore the | tail is added to only print the last 
+#     10 files.
+#
+# VIMRC / INIT.VIM IMPLEMENTATION:
+# Add one of these lines to your init.vim or .vimrc
+#
+# Auto backup on bufwrite (when you save your buffer):
+# 
+#               autocmd BufWritePost * !backup <afile>
+# 
+# Backup bound to a map (change the map to whatever you like):
+#
+#               noremap <LEADER>b :!backup %
+# 
 ##############################################################################################
 
 # Make sure a input is given
@@ -25,16 +51,16 @@ FORCE_BACKUP=0
 NO_BACKUP_SIGNATURE="(((FORCE_NO_BACKUP)))"
 
 # Check if backup directory exists
-[[ ! -d "$BACKUPDIR" ]] && echo "backup directory does not exist! create $BACKUPDIR or change variable to existing backup directory." && exit 1
+[[ ! -d "$BACKUPDIR" ]] && echo "backup directory does not exist! Create $BACKUPDIR or change variable to existing backup directory." && exit 1
 
 # Manage opts
-while getopts "dbfl" opt
+while getopts "vnfl" opt
 do
     case ${opt} in
-        d ) DEBUG=1 && shift $((OPTIND-1)) ;;
-        b ) echo "Forced no backup!" && NO_BACKUP=1 && shift $((OPTIND-1)) ;;
+        v ) DEBUG=1 && shift $((OPTIND-1)) ;;
+        n ) echo "Forced no backup!" && NO_BACKUP=1 && shift $((OPTIND-1)) ;;
         f ) echo "Forced backup!" && FORCE_BACKUP=1 && shift $((OPTIND-1)) ;;
-        l ) ls --group-directories-first --color=always "$BACKUPDIR" && shift $((OPTIND-1)) ;;
+        l ) ls --group-directories-first --color=always "$BACKUPDIR" | tail && shift $((OPTIND-1)) ;;
         \? ) echo "Argument not understood, terminating" && exit 1 ;;
     esac
 done
