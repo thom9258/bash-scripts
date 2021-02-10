@@ -28,7 +28,8 @@
 #     10 files.
 #
 # VIMRC / INIT.VIM IMPLEMENTATION:
-# Add one of these lines to your init.vim or .vimrc
+#     Before doing anything, make sure your backup script is executable in your terminal.
+#     Add one of these lines to your init.vim or .vimrc will enable backups:
 #
 # Auto backup on bufwrite (when you save your buffer):
 # 
@@ -60,7 +61,7 @@ do
         v ) DEBUG=1 && shift $((OPTIND-1)) ;;
         n ) echo "Forced no backup!" && NO_BACKUP=1 && shift $((OPTIND-1)) ;;
         f ) echo "Forced backup!" && FORCE_BACKUP=1 && shift $((OPTIND-1)) ;;
-        l ) ls --group-directories-first --color=always "$BACKUPDIR" | tail && shift $((OPTIND-1)) ;;
+        l ) echo "last 10 files:" && ls --group-directories-first --color=always "$BACKUPDIR" | tail && shift $((OPTIND-1)) ;;
         \? ) echo "Argument not understood, terminating" && exit 1 ;;
     esac
 done
