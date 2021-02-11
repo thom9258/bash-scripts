@@ -37,7 +37,7 @@
 # 
 # Backup bound to a map (change the map to whatever you like):
 #
-#               noremap <LEADER>b :!backup %
+#               nnoremap <LEADER>b :!backup %
 # 
 ##############################################################################################
 
@@ -58,10 +58,10 @@ NO_BACKUP_SIGNATURE="(((FORCE_NO_BACKUP)))"
 while getopts "vnfl" opt
 do
     case ${opt} in
-        v ) DEBUG=1 && shift $((OPTIND-1)) ;;
-        n ) echo "Forced no backup!" && NO_BACKUP=1 && shift $((OPTIND-1)) ;;
-        f ) echo "Forced backup!" && FORCE_BACKUP=1 && shift $((OPTIND-1)) ;;
-        l ) echo "last 10 files:" && ls --group-directories-first --color=always "$BACKUPDIR" | tail && shift $((OPTIND-1)) ;;
+        v  ) DEBUG=1 && shift $((OPTIND-1)) ;;
+        n  ) echo "Forced no backup!" && NO_BACKUP=1 && shift $((OPTIND-1)) ;;
+        f  ) echo "Forced backup!" && FORCE_BACKUP=1 && shift $((OPTIND-1)) ;;
+        l  ) echo "last 10 files:" && ls --group-directories-first --color=always "$BACKUPDIR" | tail && shift $((OPTIND-1)) ;;
         \? ) echo "Argument not understood, terminating" && exit 1 ;;
     esac
 done
@@ -69,10 +69,10 @@ done
 # manage input files
 for VAR in "$@"
 do
-    [[ ! -f "$VAR" ]] && echo "Not a file!" && exit 1
+    [[ ! -f "$VAR" ]] && echo "Not a file!" && continue
 
     # Check for force no backup signature in file and exit
-    (( ! "$FORCE_BACKUP" )) && grep -q "$NO_BACKUP_SIGNATURE" < "$VAR" &&  echo "Forced no backup because (((FORCE_NO_BACKUP))) mark exists in file" && exit 0
+    (( ! "$FORCE_BACKUP" )) && grep -q "$NO_BACKUP_SIGNATURE" < "$VAR" &&  echo "Forced no backup because (((FORCE_NO_BACKUP))) mark exists in file" && continue
 
     # Create pathname for the backup file
     PATHNAME=$(tr "/" "%" <<< $(realpath "$VAR")) 
@@ -83,6 +83,6 @@ do
     cp "$VAR" "$BACKUPNAME"
     chmod -x "$BACKUPNAME"
     mv "$BACKUPNAME" "$BACKUPDIR."
-    (( $DEBUG )) && echo "Created file $BACKUPDIR$BACKUPNAME"
+    (( $DEBUG )) && echo "Created file:" && ls --group-directories-first --color=always "$BACKUPDIR" | tail -n 1
 done
 exit 0
