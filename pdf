@@ -1,19 +1,57 @@
 #!/bin/bash
+##############################################################################################
+#
+# Original author:      Thomas Alexgaard Jensen (https://github.com/thom9258)
+#
+# License:              MIT
+#
+# Acknowledgements:     
+# 
+#
+##############################################################################################
+# How to use:
+#
+# OPTS:
+# -h            HELP, prints out options
+# -n            NO DELETION of output files (log|out|aux)
+# 
+##############################################################################################
+
+# Global variables
+DONTDELETEOUTPUT=0
+
+# Functions
+function help() {
+echo ""
+}
+
+function createpdf {
+    BASENAME=$(basename $1 .tex)
+    pdflatex "$1"
+    (( ! $DONTDELETEOUTPUT )) && [[ -f "$BASENAME.log" ]] && rm -f "$BASENAME.log"
+    (( ! $DONTDELETEOUTPUT )) && [[ -f "$BASENAME.out" ]] && rm -f "$BASENAME.out"
+    (( ! $DONTDELETEOUTPUT )) && [[ -f "$BASENAME.aux" ]] && rm -f "$BASENAME.aux"
+}
+# Check for inputs
 ((!$#)) && echo "no arguments supplied supply argument -h for help" && return || \
 
-while getopts "z" opt; do
+
+
+# Manage opts
+while getopts "hd" opt
+do
     case ${opt} in
-        z ) zathura $1 && echo "executed in zathura mode";;
+        h  ) help && shift $((OPTIND-1))  ;;
+        d  ) DONTDELETEOUTPUT=1 && shift $((OPTIND-1)) ;;
+        \? ) echo "Argument not understood, write -h for help." && exit 1 ;;
     esac
 done
 
-case $1 in
-    *.pdf ) okular $1 && ls;;
-    *.tex ) pdflatex $1 && ls;;
-    *.md ) pandoc $1 -f markdown-implicit_figures -t latex -s -o $2;;
-    -h ) echo "this is a all-in-one command to convert text files to pdf or to just open pdf files using okular.
-Current inputs consist of *.tex | *.pdf filetypes.
--h    Show this message";;
-#    *.tex ) pdflatex $1 && rm *.aux && rm -i *.log && ls -Al && exit 0;;
-#    * ) echo "ERROR! Input valid file" ;;
-esac
+# manage input files
+for VAR in "$@"
+do
+    case $VAR in
+        *.tex ) createpdf "$VAR" ;;
+    esac
+done
+exit 0
