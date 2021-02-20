@@ -50,6 +50,8 @@ DEBUG=0
 NO_BACKUP=0
 FORCE_BACKUP=0
 NO_BACKUP_SIGNATURE="(((FORCE_NO_BACKUP)))"
+# file names that shouldent cause a backup unless -f is used.
+IGNORE_FILENAMES=("compile_commands.json" "Makefile")
 
 # Check if backup directory exists
 [[ ! -d "$BACKUPDIR" ]] && echo "backup directory does not exist! Create $BACKUPDIR or change variable to existing backup directory." && exit 1
@@ -70,6 +72,12 @@ done
 for VAR in "$@"
 do
     [[ ! -f "$VAR" ]] && echo "Not a file!" && continue
+
+    # check if the current file is contained in the ignore filename list
+    for FILENAME in "${IGNORE_FILENAMES[@]}"
+    do
+        [[ "$VAR" == "$FILENAME" ]] && echo "Filename is set to be ignored." && continue 2
+    done
 
     # Check for force no backup signature in file and exit
     (( ! "$FORCE_BACKUP" )) && grep -q "$NO_BACKUP_SIGNATURE" < "$VAR" &&  echo "Forced no backup because (((FORCE_NO_BACKUP))) mark exists in file" && continue
