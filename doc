@@ -4,6 +4,7 @@
 case "$1" in
     cpp) cp ~/Documents/blueprints/cpp-main-blueprint.cpp blueprint.cpp && echo "created .cpp document" || echo "could not find the document you are looking for";;
     hpp) cp ~/Documents/blueprints/hpp-blueprint.h blueprint.h && echo "created .hpp document" || echo "could not find the document you are looking for";;
+    bash) cp ~/Documents/blueprints/bash-blueprint bash-script && echo "created .cpp document" || echo "could not find the document you are looking for";;
     tex) cp ~/Documents/blueprints/latexblueprint.tex latex.tex && echo "created .tex document" || echo "could not find the document you are looking for";;
     opencv) cp -r ~/Documents/Cpp/lib/easycv .  && rm easycv/compile_commands.json && echo "Added opencv scripts" || echo "could not find the document you are looking for";;
     easycv) cp -r ~/Documents/Cpp/lib/easycv .  && rm easycv/compile_commands.json && echo "Added opencv scripts" || echo "could not find the document you are looking for";;
