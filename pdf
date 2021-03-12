@@ -5,20 +5,24 @@
 #
 # License:              MIT
 #
-# Acknowledgements:     
-# 
+# Acknowledgements: 
 #
 ##############################################################################################
 # How to use:
 #
 # OPTS:
-# -h            HELP, prints out options
-# -n            NO DELETION of output files (log|out|aux)
+
+# VIMRC / INIT.VIM IMPLEMENTATION:
+# Compilation bound to a map (change the map to whatever you like):
+#
+#               nnoremap <LEADER>b :!pdf %
 # 
 ##############################################################################################
 
 # Global variables
-DONTDELETEOUTPUT=0
+PDFDATANAMES=(".log" ".out" ".aux" ".bbl" ".bcf" ".blg" ".run.xml" ".tex.bbl" ".tex.blg" ".fls" ".fdb_latexmk" ".toc")
+PDFDATAPATH="texdata"
+BIBCOMPILE=0
 
 # Functions
 function help() {
@@ -26,23 +30,39 @@ echo ""
 }
 
 function createpdf {
+    # create data dir
+    [[ ! -d "$PDFDATAPATH" ]] && mkdir "$PDFDATAPATH"
+
+    
+    # Get basename of tex file
     BASENAME=$(basename $1 .tex)
-    pdflatex "$1"
-    (( ! $DONTDELETEOUTPUT )) && [[ -f "$BASENAME.log" ]] && rm -f "$BASENAME.log"
-    (( ! $DONTDELETEOUTPUT )) && [[ -f "$BASENAME.out" ]] && rm -f "$BASENAME.out"
-    (( ! $DONTDELETEOUTPUT )) && [[ -f "$BASENAME.aux" ]] && rm -f "$BASENAME.aux"
+
+    #fetch data files
+    for FILEENDING in "${PDFDATANAMES[@]}"
+    do
+        [[ -f "$PDFDATAPATH/$BASENAME$FILEENDING" ]] && mv "$PDFDATAPATH/$BASENAME$FILEENDING" "$BASENAME$FILEENDING"
+    done
+
+    # https://www.unf.edu/~wkloster/latex/bib.html
+    (( $BIBCOMPILE )) && bibtex "$BASENAME"
+    pdflatex "$BASENAME.tex"
+
+    #put data files back
+    for FILEENDING in "${PDFDATANAMES[@]}"
+    do
+        [[ -f "$BASENAME$FILEENDING" ]] && mv "$BASENAME$FILEENDING" "$PDFDATAPATH/$BASENAME$FILEENDING" 
+    done
 }
+
 # Check for inputs
 ((!$#)) && echo "no arguments supplied supply argument -h for help" && return || \
 
-
-
 # Manage opts
-while getopts "hd" opt
+while getopts "hbd" opt
 do
     case ${opt} in
         h  ) help && shift $((OPTIND-1))  ;;
-        d  ) DONTDELETEOUTPUT=1 && shift $((OPTIND-1)) ;;
+        b  ) BIBCOMPILE=1 && shift $((OPTIND-1)) ;;
         \? ) echo "Argument not understood, write -h for help." && exit 1 ;;
     esac
 done
